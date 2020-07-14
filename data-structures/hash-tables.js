@@ -3,7 +3,7 @@ let user = {
   name: 'Kylie',
   magic: true,
   scream: () => {
-    console.log('ahhhhhh!');
+    console.log('spell: ahhhhhh!');
   }
 }
 
@@ -27,16 +27,48 @@ class HashTable {
   }
 
   set(key, value) {
-    const hash = this._hash(key);
-    this.data[hash] = [key, value];
+    const address = this._hash(key);
+    if (!this.data[address]) {
+      // create bucket
+      this.data[address] = [];
+    }
+    // add to the bucket memory
+    this.data[address].push([key, value]);
   }
 
   get(key) {
-    const hash = this._hash(key);
-    return this.data[hash];
+    const address = this._hash(key);
+    const currentBacket = this.data[address];
+    if (currentBacket.length) {
+      for (let i = 0; i < currentBacket.length; i++) {
+        if (currentBacket[i][0] === key) {
+          return currentBacket[i][1];
+        }
+      }
+    }
+    return undefined;
+  } // O(n) in this example XD
+
+  keys() {
+    const keysArray = [];
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i]) {
+        keysArray.push(this.data[i][0][0]);
+      }
+    }
+    return keysArray;
+  }
+
+  getAll() {
+    return this.data;
   }
 }
 
 const myHashTable = new HashTable(50);
 myHashTable.set('grapes', 10000);
+myHashTable.set('apples', 54);
+
 console.log(myHashTable.get('grapes'));
+console.log(myHashTable.getAll());
+
+console.log(myHashTable.keys());
