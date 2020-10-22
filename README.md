@@ -45,6 +45,8 @@ basket.grapes = 10000
 Key -> value (in same memory slot).
 "grapes" -> 10000
 
+tradeoff: fast access O(1) but more memory used.
+
 #### Big-O Algorithm Complexity
 
 | Complexity |      |
